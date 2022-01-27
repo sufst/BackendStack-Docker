@@ -95,4 +95,3 @@ This repository contains scripts for Docker to run the entire backend stack (Int
   > **Linux**
   >
   > `sudo docker container stop EntireBackend`
-

@@ -14,23 +14,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+# Fetches the latest python 3 docker image
 FROM python:latest
 
 SHELL ["/bin/bash", "-c"]
 
+# Creates a scripts dirctory in the docker image and dumps this repositories files into it
 RUN mkdir -p /var/scripts
 
 COPY ./ /var/scripts 
 
+# Checking for updates and installs Git
 RUN apt-get update
 
 RUN apt-get install git
 
-# Cloning both repositories in their own directories in /var
-RUN cd /var && git clone https://github.com/sufst/intermediate-server.git && cd intermediate-server && git checkout docker-implementation && ls
+# Cloning both repositories in their own directories in /var and changes both to the docker-implementation branches
+RUN cd /var && git clone https://github.com/sufst/intermediate-server.git && cd intermediate-server && git checkout docker-implementation
 
-RUN cd /var && git clone https://github.com/sufst/back-end.git && cd back-end && git checkout docker-implementation && ls
+RUN cd /var && git clone https://github.com/sufst/back-end.git && cd back-end && git checkout docker-implementation
 
+# Checks pip updates
 RUN pip install --no-cache-dir --upgrade pip
 
 # Installing python dependencies for both servers
@@ -44,9 +48,8 @@ RUN sed -i 's/if lambda option: option < cls.UNSUPPORTED_ZDO_PASSTHRU)/if op < c
 # Exposing port 5000
 EXPOSE 5000
 
+# Giving script permission to run
 RUN chmod +x /var/scripts/startscript.sh
 
+# Points to script that runs on boot of Docker Image
 ENTRYPOINT /var/scripts/startscript.sh
-# python /var/intermediate-server/server.py
-
-# python /var/back-end/server.py
