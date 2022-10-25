@@ -58,9 +58,13 @@ This repository contains scripts for Docker to run the entire backend stack (Int
 
 4. Give docker time to build the image. Once it has built, we need to create a container instance of this image. 
 
-   > **Windows and MacOS**
+   > **Windows**
    >
    > `docker container run --name EntireBackend entire-backend `
+
+   > **MacOS**
+   > 
+   > `docker container run --name EntireBackend entire-backend -p 5000:5000`
 
    > **Linux**
    >
@@ -68,11 +72,15 @@ This repository contains scripts for Docker to run the entire backend stack (Int
 
 5. The container should now be running. Next step we need to do is get the containers IP address for the frontend to point to. 
 
-   > **Windows and MacOS**
+   > **Windows**
    >
    > `docker inspect EntireBackend `
    >
    > Use your find tool in your terminal and search 'IPAddress'. Your containers IP address should be listed. 
+
+   > **MacOS**
+   > 
+   > On MacOS, your docker container runs through a bridged network. So your IP address for the container should be `http://localhost:5000` on your machine. 
 
    > **Linux**
    >
